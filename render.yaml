@@ -1,0 +1,29 @@
+databases:
+  - name: todoprojrectdb
+    plan: free
+    databaseName: todoprojrect
+    user: todoprojrect
+
+services:
+  - type: web
+    plan: free
+    name: todoprojrect
+    runtime: python
+    buildCommand: './build.sh'
+    startCommand: 'python -m gunicorn Todoprojrect.asgi:application -k uvicorn.workers.UvicornWorker'
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: todoprojrectdb
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: False
+      - key: ALLOWED_HOSTS
+        fromService:
+          type: web
+          name: todoprojrect
+          property: host
+      - key: WEB_CONCURRENCY
+        value: 4
