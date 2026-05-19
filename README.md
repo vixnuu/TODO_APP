@@ -159,6 +159,3 @@ Computer Science Graduate | Django Developer
 
 ---
 
-## 📄 License
-
-This project is created for learning and portfolio purposes.
